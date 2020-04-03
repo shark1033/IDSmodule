@@ -40,6 +40,7 @@ std::string Gzip::getOS(std::string fileInBytes) {
 	default:return "unknown";
 	}
 }
+
 std::string Gzip::getChsum(std::string fileInBytes) {
 	int start = fileInBytes.length() - 16;
 	std::cout << "\n" << " start at " << start;

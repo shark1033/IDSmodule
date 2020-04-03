@@ -18,6 +18,7 @@ public:
 	std::string compression;
 	std::string version;
 	std::string extension;
+	std::string arch;
 	int network;
 	int filesInside;
 	unsigned long long compressed_size; //compressed
@@ -39,6 +40,7 @@ public:
 	void getInfo();
 	std::string convertTime(std::string unixTime);
 	std::string convertBigEndian(std::string bigEndian, int bytes);
+	std::string convertHexToDec(std::string hexInString);
 
 	virtual void parseFile(std::string fileInBytes, File* file);
 	virtual std::string getFormat() {

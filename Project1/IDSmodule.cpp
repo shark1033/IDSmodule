@@ -11,6 +11,7 @@
 #include "Gif.h"
 #include "Ico.h"
 #include "Squashfs.h"
+#include "Uboot.h"
 #include "DataBase.h"
 #include <fstream>
 
@@ -23,6 +24,7 @@
         this->formatObjects[3] = new Gzip();
         this->formatObjects[4] = new Zip();
         this->formatObjects[5] = new Squashfs();
+        this->formatObjects[6] = new Uboot();
         this->db = DataBase(dbPath);
         this->filePath = filePath;
     };
@@ -93,7 +95,7 @@
         bool isDefined = false;
         
 
-        for (int i = 0; i < 6; i++) {
+        for (int i = 0; i < 7; i++) {
             std::cout << "i = " << i<< "\n";
 
             //--------------------------------------------- SCRIPT -------------------------------------------//
@@ -189,7 +191,7 @@
 
         std::cout << "\n" << "lenght IDS   " << this->lenght<<"\n";
         this->file.uncompressed_size = this->lenght;
-        File* ptr = &this->file;  // создали указатель, чтобы функци€ parseFile измен€ла созданный нами экземпл€р класса File, которые €вл€етс€ полем класса IDSmodule
+        File* ptr = &this->file;  // создали указатель, чтобы функци€ parseFile измен€ла созданный нами экземпл€р класса File, которые €вл€етс€ полем класса IDSmodule !!!!ptr не нужен ведь
 
         if (format == "zip") {
             long double startOfEODR;
@@ -208,11 +210,13 @@
 
 
         }
+
         if (format == "gzip") {
             fileInBytes = readFile(0,10)+readFile(lenght - 8, 8);
             formatObjects[pointer]->parseFile(this->fileInBytes, ptr);
             
         }
+
         if (format == "tar") {
 
         }
@@ -220,11 +224,14 @@
             formatObjects[pointer]->parseFile(this->fileInBytes, ptr);
 
         }
+
         if (format == "gif") {
             formatObjects[pointer]->parseFile(this->fileInBytes, ptr);
         }
-        if (format == "u-boot") {
 
+        if (format == "uimage") {
+            fileInBytes = readFile(0, 32);
+            formatObjects[pointer]->parseFile(fileInBytes, ptr);
         }
         if (format == "squashfs") {
             fileInBytes = readFile(0, 22);
@@ -240,8 +247,9 @@
             formatObjects[pointer]->parseFile(this->fileInBytes, ptr);
             
         }
+
         if (format == "undefined") {
-            formatObjects[pointer]->parseFile("", ptr);
+            //возможно анализ одержимого чтобы определить тип файла... но пока оставм так.
         }
     }
      

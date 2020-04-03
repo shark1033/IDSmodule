@@ -12,7 +12,7 @@ class IDSmodule
 public:
     File file;
    // std::vector<File>files;
-    File* formatObjects[6];
+    File* formatObjects[7];
     DataBase db;
     //void initArray();
     std::string fileInBytes;
