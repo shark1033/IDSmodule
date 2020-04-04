@@ -31,7 +31,7 @@ int main(){
        // rf.db.createDatabases();
         //rf.db.insertIntoTables(rf.db.prepareInsertStatement(&rf.file).c_str());
    */
-       IDSmodule ids = IDSmodule("s:\\testfiles\\example.uimage");
+       IDSmodule ids = IDSmodule("s:\\testfiles\\example.tar");
        ids.checkFormat();
        ids.file.getInfo();
        // ids.readCharachters(10);

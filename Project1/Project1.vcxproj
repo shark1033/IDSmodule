@@ -154,9 +154,11 @@
     <ClCompile Include="Gzip.cpp" />
     <ClCompile Include="Ico.cpp" />
     <ClCompile Include="IDSmodule.cpp" />
+    <ClCompile Include="Pe.cpp" />
     <ClCompile Include="Script.cpp" />
     <ClCompile Include="sqlite3.c" />
     <ClCompile Include="Squashfs.cpp" />
+    <ClCompile Include="Tar.cpp" />
     <ClCompile Include="Uboot.cpp" />
     <ClCompile Include="Undefined.cpp" />
     <ClCompile Include="Zip.cpp" />
@@ -168,9 +170,11 @@
     <ClInclude Include="Gzip.h" />
     <ClInclude Include="Ico.h" />
     <ClInclude Include="IDSmodule.h" />
+    <ClInclude Include="Pe.h" />
     <ClInclude Include="Script.h" />
     <ClInclude Include="sqlite3.h" />
     <ClInclude Include="Squashfs.h" />
+    <ClInclude Include="Tar.h" />
     <ClInclude Include="Uboot.h" />
     <ClInclude Include="Undefined.h" />
     <ClInclude Include="Zip.h" />

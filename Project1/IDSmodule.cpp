@@ -12,6 +12,7 @@
 #include "Ico.h"
 #include "Squashfs.h"
 #include "Uboot.h"
+#include "Tar.h"
 #include "DataBase.h"
 #include <fstream>
 
@@ -25,6 +26,7 @@
         this->formatObjects[4] = new Zip();
         this->formatObjects[5] = new Squashfs();
         this->formatObjects[6] = new Uboot();
+        this->formatObjects[7] = new Tar();
         this->db = DataBase(dbPath);
         this->filePath = filePath;
     };
@@ -90,12 +92,13 @@
         fileIn.close();
         return fileInByte;
     }
+
     void IDSmodule::checkFormat() {
         std::string s;
         bool isDefined = false;
         
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < 8; i++) {
             std::cout << "i = " << i<< "\n";
 
             //--------------------------------------------- SCRIPT -------------------------------------------//
@@ -157,16 +160,21 @@
                 
             }
             //--------------------------------------------- TAR -------------------------------------------//
-            else if (formatObjects[i]->format == "tar") { // если это tar то заголовок у него далеко и нужно чиать файл заного, чтобы захватить больше байт
-                std::string fileIn = this->readFile(512,50);
-                if (fileIn.find(formatObjects[i]->magic)) {
-                    fileInBytes = fileIn;
+            else if (formatObjects[i]->getFormat() == "tar") { // читаем только байты, которые расположены с оффсетом 257, чтобы определить, это тар или нет
+                fileInBytes = readFile(257,8);
+                if (fileInBytes == ((Tar*)formatObjects[i])->magic1) {
+                    formatObjects[i]->magic = ((Tar*)formatObjects[i])->getMagic(1);
                     getInfo(formatObjects[i]->getFormat(), i);
                     isDefined = true;
                     break;
                 }
+                else if (fileInBytes == ((Tar*)formatObjects[i])->magic2) {
+                    formatObjects[i]->magic = ((Tar*)formatObjects[i])->getMagic(2);
+                    getInfo(formatObjects[i]->getFormat(), i);
+                    isDefined = true;
+                    break;
+                    }
             }
-            
             //--------------------------------------------- OTHER -------------------------------------------//
             fileInBytes = readFile(0, 10);
             s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
@@ -218,7 +226,8 @@
         }
 
         if (format == "tar") {
-
+            std::cout << "tar parse";
+            formatObjects[pointer]->parseFile(fileInBytes, ptr);
         }
         if (format == "ico") {
             formatObjects[pointer]->parseFile(this->fileInBytes, ptr);
@@ -233,10 +242,12 @@
             fileInBytes = readFile(0, 32);
             formatObjects[pointer]->parseFile(fileInBytes, ptr);
         }
+
         if (format == "squashfs") {
             fileInBytes = readFile(0, 22);
             formatObjects[pointer]->parseFile(fileInBytes, ptr);
         }
+
         if (format == "elf") {
 
         }
