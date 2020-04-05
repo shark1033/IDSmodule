@@ -5,42 +5,42 @@ class File
 {
 public:
 
-	std::string name;			// имя файла
-	std::string magic;			// набор магических байт/сигнатруа
-	std::string chsum;			// контрольтная сумма заголовка/файла
-	std::string os;				// целевая ос
-	std::string time_stamp;		// отметка времени (время создания/время модификации)
-	std::string format;			// формат файла
-	std::string type;			// тип файла
-	std::string compression;	// метод/алгоритм сжатия
-	std::string extension;		// расширение файла
-	std::string arch;			// архитектура целевой системы
-	int network;				// наличие сетевыз возможнойстей (0 - есть, 1 - нет)
-	int filesInside;			// количество файлов внутри (акутально для архивов)
-	unsigned long long size;	// размер файла
-	int magic_offset;			// смещение до сигнатуры
-	int magic_offset_size;		// длина сигнатуры
+	std::string name;			// РёРјСЏ С„Р°Р№Р»Р°
+	std::string magic;			// РЅР°Р±РѕСЂ РјР°РіРёС‡РµСЃРєРёС… Р±Р°Р№С‚/СЃРёРіРЅР°С‚СЂСѓР°
+	std::string chsum;			// РєРѕРЅС‚СЂРѕР»СЊС‚РЅР°СЏ СЃСѓРјРјР° Р·Р°РіРѕР»РѕРІРєР°/С„Р°Р№Р»Р°
+	std::string os;				// С†РµР»РµРІР°СЏ РѕСЃ
+	std::string time_stamp;		// РѕС‚РјРµС‚РєР° РІСЂРµРјРµРЅРё (РІСЂРµРјСЏ СЃРѕР·РґР°РЅРёСЏ/РІСЂРµРјСЏ РјРѕРґРёС„РёРєР°С†РёРё)
+	std::string format;			// С„РѕСЂРјР°С‚ С„Р°Р№Р»Р°
+	std::string type;			// С‚РёРї С„Р°Р№Р»Р°
+	std::string compression;	// РјРµС‚РѕРґ/Р°Р»РіРѕСЂРёС‚Рј СЃР¶Р°С‚РёСЏ
+	std::string extension;		// СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р°
+	std::string arch;			// Р°СЂС…РёС‚РµРєС‚СѓСЂР° С†РµР»РµРІРѕР№ СЃРёСЃС‚РµРјС‹
+	int network;				// РЅР°Р»РёС‡РёРµ СЃРµС‚РµРІС‹Р· РІРѕР·РјРѕР¶РЅРѕР№СЃС‚РµР№ (0 - РµСЃС‚СЊ, 1 - РЅРµС‚)
+	int filesInside;			// РєРѕР»РёС‡РµСЃС‚РІРѕ С„Р°Р№Р»РѕРІ РІРЅСѓС‚СЂРё (Р°РєСѓС‚Р°Р»СЊРЅРѕ РґР»СЏ Р°СЂС…РёРІРѕРІ)
+	unsigned long long size;	// СЂР°Р·РјРµСЂ С„Р°Р№Р»Р°
+	int magic_offset;			// СЃРјРµС‰РµРЅРёРµ РґРѕ СЃРёРіРЅР°С‚СѓСЂС‹
+	int magic_offset_size;		// РґР»РёРЅР° СЃРёРіРЅР°С‚СѓСЂС‹
 
 	
-	File();																// пустой конструктор. нужен для создания массива File* formatObjects[]
-	File(std::string format, std::string magic);						// конструктор.принимает парметры: формат файла, набор магических байт файла
+	File();																// РїСѓСЃС‚РѕР№ РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ. РЅСѓР¶РµРЅ РґР»СЏ СЃРѕР·РґР°РЅРёСЏ РјР°СЃСЃРёРІР° File* formatObjects[]
+	File(std::string format, std::string magic);						// РєРѕРЅСЃС‚СЂСѓРєС‚РѕСЂ.РїСЂРёРЅРёРјР°РµС‚ РїР°СЂРјРµС‚СЂС‹: С„РѕСЂРјР°С‚ С„Р°Р№Р»Р°, РЅР°Р±РѕСЂ РјР°РіРёС‡РµСЃРєРёС… Р±Р°Р№С‚ С„Р°Р№Р»Р°
 																		 
 	int formatToInt();													// {
-	int compressionToInt();												// методы для измнения значений 
-	int typeToInt();													// для более удобной записи в БД
+	int compressionToInt();												// РјРµС‚РѕРґС‹ РґР»СЏ РёР·РјРЅРµРЅРёСЏ Р·РЅР°С‡РµРЅРёР№ 
+	int typeToInt();													// РґР»СЏ Р±РѕР»РµРµ СѓРґРѕР±РЅРѕР№ Р·Р°РїРёСЃРё РІ Р‘Р”
 	int osToInt();														// }
 
-	void getNameAndExt(std::string filePath);							// метод, определяющий имя и расширение файла. Записывает значения в поля file.name, file.extension
-	void getInfo();														// метод для вывода значений полей экземпляра file
+	void getNameAndExt(std::string filePath);							// РјРµС‚РѕРґ, РѕРїСЂРµРґРµР»СЏСЋС‰РёР№ РёРјСЏ Рё СЂР°СЃС€РёСЂРµРЅРёРµ С„Р°Р№Р»Р°. Р—Р°РїРёСЃС‹РІР°РµС‚ Р·РЅР°С‡РµРЅРёСЏ РІ РїРѕР»СЏ file.name, file.extension
+	void getInfo();														// РјРµС‚РѕРґ РґР»СЏ РІС‹РІРѕРґР° Р·РЅР°С‡РµРЅРёР№ РїРѕР»РµР№ СЌРєР·РµРјРїР»СЏСЂР° file
 
-	std::string convertTime(std::string unixTime);						// метод конвертирует время формате ubixTime в обычный формат: часы:минуты:секунды число:месяц:год
-	std::string convertBigEndian(std::string bigEndian, int bytes);		// метод изменяет порядок байт little Endian в big Endian. работает либо для 2 байт либо для 4
-	std::string convertHexToDec(std::string hexInString);				// метод переыодит из 16 СС в 10 СС
+	std::string convertTime(std::string unixTime);						// РјРµС‚РѕРґ РєРѕРЅРІРµСЂС‚РёСЂСѓРµС‚ РІСЂРµРјСЏ С„РѕСЂРјР°С‚Рµ ubixTime РІ РѕР±С‹С‡РЅС‹Р№ С„РѕСЂРјР°С‚: С‡Р°СЃС‹:РјРёРЅСѓС‚С‹:СЃРµРєСѓРЅРґС‹ С‡РёСЃР»Рѕ:РјРµСЃСЏС†:РіРѕРґ
+	std::string convertBigEndian(std::string bigEndian, int bytes);		// РјРµС‚РѕРґ РёР·РјРµРЅСЏРµС‚ РїРѕСЂСЏРґРѕРє Р±Р°Р№С‚ little Endian РІ big Endian. СЂР°Р±РѕС‚Р°РµС‚ Р»РёР±Рѕ РґР»СЏ 2 Р±Р°Р№С‚ Р»РёР±Рѕ РґР»СЏ 4
+	std::string convertHexToDec(std::string hexInString);				// РјРµС‚РѕРґ РїРµСЂРµС‹РѕРґРёС‚ РёР· 16 РЎРЎ РІ 10 РЎРЎ
 
-	virtual void parseFile(std::string fileInBytes, File* file);		// метод отвечает за парсинг файла. Каждый производный класс переопределяет данный метод
-	virtual std::string getFormat();									// метод возвращает формат файла
-	virtual std::string getMagic();										// метод возыращает сигнатуру файла
-	virtual int getMagicOffset();										// метод возвращает смещение до сигнатуры
-	virtual int getMagicOffsetSize();									// метод возвращает длину сигнатуры
+	virtual void parseFile(std::string fileInBytes, File* file);		// РјРµС‚РѕРґ РѕС‚РІРµС‡Р°РµС‚ Р·Р° РїР°СЂСЃРёРЅРі С„Р°Р№Р»Р°. РљР°Р¶РґС‹Р№ РїСЂРѕРёР·РІРѕРґРЅС‹Р№ РєР»Р°СЃСЃ РїРµСЂРµРѕРїСЂРµРґРµР»СЏРµС‚ РґР°РЅРЅС‹Р№ РјРµС‚РѕРґ
+	virtual std::string getFormat();									// РјРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ С„РѕСЂРјР°С‚ С„Р°Р№Р»Р°
+	virtual std::string getMagic();										// РјРµС‚РѕРґ РІРѕР·С‹СЂР°С‰Р°РµС‚ СЃРёРіРЅР°С‚СѓСЂСѓ С„Р°Р№Р»Р°
+	virtual int getMagicOffset();										// РјРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ СЃРјРµС‰РµРЅРёРµ РґРѕ СЃРёРіРЅР°С‚СѓСЂС‹
+	virtual int getMagicOffsetSize();									// РјРµС‚РѕРґ РІРѕР·РІСЂР°С‰Р°РµС‚ РґР»РёРЅСѓ СЃРёРіРЅР°С‚СѓСЂС‹
 
 };
