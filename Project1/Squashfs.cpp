@@ -25,7 +25,7 @@ int Squashfs::getMagicOffsetSize() {
 
 void Squashfs::parseFile(std::string fileInBytes, File* file) {
 	file->compression = this->getCompression(fileInBytes);
-	file->date_created = this->getTime(fileInBytes);
+	file->time_stamp = this->getTime(fileInBytes);
 	file->type = this->type;
 
 }

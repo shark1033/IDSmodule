@@ -119,20 +119,19 @@ std::string File::convertTime(std::string unixTime) {
 	return time;
 }
 
-
-
 File::File(){}
+
 File::File(std::string format, std::string magic) :format(format), magic(magic),
-chsum(""), owner(""), date_changed(""), date_created(""), type(""), compression(""), version(""), 
-magic_offset(0), magic_offset_size(0),os(""),filesInside(0), compressed_size(), uncompressed_size(), network(1), arch("")
+chsum("undefined"), time_stamp("udefined"), type("undefined"), compression("undefined"),  
+magic_offset(0), magic_offset_size(0),os("undefined"),filesInside(0), size(0), network(1), arch("undefined")
 {
 
 }
 void File::parseFile(std::string fileInBytes, File* file){}
 
 void File::getInfo() {
-	std::cout << "\n Name: " << this->name << " uncompressed size: " << this->uncompressed_size <<" compressed size: " << this->compressed_size << " chsum: " << this->chsum << " owner: " << this->owner << " os: " << this->os
-		<< "\n date_changed: " << this->date_changed << " date_created: " << this->date_created << " format: " << this->format
+	std::cout << "\n Name: " << this->name << " uncompressed size: " << this->size <<" compressed size: " << this->size << " chsum: " << this->chsum << " owner: " << this->owner << " os: " << this->os
+		<< "\n date_changed: " << this->time_stamp << " date_created: " << this->time_stamp << " format: " << this->format
 		<< "\n type: " << this->type << " compression: " << this->compression << " version: " << this->version
 		<< "\n extension : " << this->extension << " filesInside: " << this->filesInside 
 		<< " network: " << this->network;
@@ -244,6 +243,7 @@ int File::formatToInt() {
 		return 11;
 	}
 }
+
 int File::compressionToInt(){
 	if (this->compression == "deflate 08") {
 		return 1;
@@ -255,6 +255,7 @@ int File::compressionToInt(){
 		return 4;
 	}
 }
+
 int File::typeToInt(){
 	if (this->type == "archive") {
 		return 1;
@@ -292,6 +293,7 @@ int File::typeToInt(){
 	}
 
 }
+
 int File::osToInt() {
 	if (this->os == "fat fs(ms-dos,os/2,nt/win32)") {
 		return 1;
@@ -318,4 +320,20 @@ int File::osToInt() {
 	else {
 		return 6;
 	}
+}
+
+std::string File::getFormat() {
+	return this->format;
+}
+
+std::string File::getMagic() {
+	return this->magic;
+}
+
+int File::getMagicOffset() {
+	return this->magic_offset;
+}
+
+int File::getMagicOffsetSize() {
+	return this->magic_offset_size;
 }

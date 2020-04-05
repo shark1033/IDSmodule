@@ -140,19 +140,19 @@
             //--------------------------------------------- GIF -------------------------------------------//
             else if(formatObjects[i]->getFormat() == "gif") {
                 
-                fileInBytes = readFile(0, 12);
+                fileInBytes = readFile(0, 7); //необходимы только превые 6 байт дл€ опредлени€ формата.
                 s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
                 
                 if (s == ((Gif*)formatObjects[i])->magic1) {
                     std::cout << "it's gif11 \n";
-                    formatObjects[i]->magic = ((Gif*)formatObjects[i])->getMagic(1);
+                    formatObjects[i]->magic = ((Gif*)formatObjects[i])->magic1;
                     getInfo(formatObjects[i]->format, i);
                     isDefined = true;
                     break; 
                 }
                 else if (s == ((Gif*)formatObjects[i])->magic2) {
                     std::cout << "it's gif12 \n";
-                    formatObjects[i]->magic = ((Gif*)formatObjects[i])->getMagic(2);
+                    formatObjects[i]->magic = ((Gif*)formatObjects[i])->magic2;
                     getInfo(formatObjects[i]->getFormat(), i);
                     isDefined = true;
                     break;
@@ -198,7 +198,7 @@
         this->file.getNameAndExt(filePath);
 
         std::cout << "\n" << "lenght IDS   " << this->lenght<<"\n";
-        this->file.uncompressed_size = this->lenght;
+        this->file.size = this->lenght;
         File* ptr = &this->file;  // создали указатель, чтобы функци€ parseFile измен€ла созданный нами экземпл€р класса File, которые €вл€етс€ полем класса IDSmodule !!!!ptr не нужен ведь
 
         if (format == "zip") {

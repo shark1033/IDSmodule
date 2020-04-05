@@ -88,7 +88,7 @@ std::string Gzip::getChsum(std::string fileInBytes) {
 
 
 long double Gzip::getSize(std::string fileInBytes) {
-	if (compressed_size == 0) return 0;
+	if (size == 0) return 0;
 
 	int start = fileInBytes.length() - 8;
 	std::cout << "\n start at " << start;
@@ -250,10 +250,10 @@ std::string Gzip::getTime(std::string fileInBytes) {
 void Gzip::parseFile(std::string fileInBytes, File* file) {
 
 	file->compression = getCompesion(fileInBytes);
-	file->date_created= getTime(fileInBytes);
+	file->time_stamp= getTime(fileInBytes);
 	file->os=getOS(fileInBytes);
 	file->chsum = getChsum(fileInBytes);
-	file->compressed_size=getSize(fileInBytes); 
+	file->size=getSize(fileInBytes); 
 	file->type = getType();
 	file->filesInside = 1; //gzip always contains 1 file inside itself
 	

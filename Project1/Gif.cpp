@@ -3,10 +3,7 @@
 std::string Gif::getMagic() {
 	return this->magic;
 }
-std::string Gif::getMagic(int m) {
-	if (m == 1) { return "GIF87a";}
-	else { return "GIF89a"; }
-}
+
 std::string Gif::getFormat() {
 	return this->format;
 }

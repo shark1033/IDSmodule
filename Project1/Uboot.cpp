@@ -11,7 +11,7 @@ void Uboot::parseFile(std::string fileInBytes, File* file) {
     file->compression = getCompression(fileInBytes);
     file->chsum = getChsum(fileInBytes);
     file->os = getOS(fileInBytes);
-    file->date_created = getTime(fileInBytes);
+    file->time_stamp = getTime(fileInBytes);
     file->type = this->type;
 }
 

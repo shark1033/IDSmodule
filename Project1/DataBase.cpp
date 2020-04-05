@@ -16,8 +16,8 @@ void DataBase::disconnect() {
 	std::cout << "connection is closed";
 }
 
-
 DataBase::DataBase(std::string dbPath) : dbPath(dbPath) {}
+
 DataBase::~DataBase() {
 	//std::cout << "\n"<<"object DataBase was deleted"<<"\n";
 }
@@ -50,17 +50,15 @@ void DataBase::selectInfo() {
 		sqlite3_free(err);
 	}
 }
-//todo дописать выражение!
+//todo дописать выражение! добавить архитектуру
 std::string DataBase::prepareInsertStatement(File* file) {
 
 	std::string statement = "INSERT INTO Files(name, size, magic, extension, chsum, owner, date_changed, date_created, version, files_inside, network, type, os, compression, format) VALUES(";
-	statement += "'" + file->name + "','" + std::to_string(file->compressed_size) + "','" + file->magic + "','" + file->extension + "','" + file->chsum + "','" + file->owner + "','" + file->date_changed + "','" + file->date_created
-		+ "','" + file->version + "','" + std::to_string(file->filesInside) + "','" + std::to_string(file->network) + "','"
+	statement += "'" + file->name + "','" + std::to_string(file->size) + "','" + file->magic + "','" + file->extension + "','" + file->chsum + "','" + file->time_stamp + "','" + file->time_stamp
+		+ "','" + std::to_string(file->filesInside) + "','" + std::to_string(file->network) + "','"
 		+ std::to_string(file->typeToInt()) + "','" + std::to_string(file->osToInt()) + "','" + std::to_string(file->compressionToInt()) + "','" + std::to_string(file->formatToInt())+"');";
 	return statement;
 }
-
-
 
 //DataBase::DataBase(){}
 
