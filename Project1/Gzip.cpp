@@ -79,7 +79,7 @@ std::string Gzip::getChsum(std::string fileInBytes) {
 		case '9': k = 9; break;
 		case '0': k = 0; break;
 		}
-		result = result + k * pow(16, p); //формула перевода из 16 СС в 10 СС
+		result = result + k * pow(16, p); //С„РѕСЂРјСѓР»Р° РїРµСЂРµРІРѕРґР° РёР· 16 РЎРЎ РІ 10 РЎРЎ
 		p--;
 	}
 	
@@ -130,7 +130,7 @@ long double Gzip::getSize(std::string fileInBytes) {
 		case '9': k = 9; break;
 		case '0': k = 0; break;
 		}
-		result = result + k * pow(16, p); //формула перевода из 16 СС в 10 СС
+		result = result + k * pow(16, p); //С„РѕСЂРјСѓР»Р° РїРµСЂРµРІРѕРґР° РёР· 16 РЎРЎ РІ 10 РЎРЎ
 		p--;
 	}
 	long double l1 = 2;
@@ -147,8 +147,8 @@ std::string Gzip::getCompesion(std::string fileInBytes) {
 
 
 std::string Gzip::getTime(std::string fileInBytes) {
-	std::string s = fileInBytes.substr(8, 8); //получили подстроку (4 байт) времени
-	//делаем из big endian -> little endian
+	std::string s = fileInBytes.substr(8, 8); //РїРѕР»СѓС‡РёР»Рё РїРѕРґСЃС‚СЂРѕРєСѓ (4 Р±Р°Р№С‚) РІСЂРµРјРµРЅРё
+	//РґРµР»Р°РµРј РёР· big endian -> little endian
 	std::string sub1, sub2,sub3,sub4; 
 	sub1 = s.substr(0, 2); //sub1->4 sub2->3 sub3->2 sub4->1
 	sub2 = s.substr(2, 2);
@@ -156,7 +156,7 @@ std::string Gzip::getTime(std::string fileInBytes) {
 	sub4 = s.substr(6, 2);
 	s = sub4 + sub3 + sub2 + sub1;
 	
-	//перевод string в массив char
+	//РїРµСЂРµРІРѕРґ string РІ РјР°СЃСЃРёРІ char
 	char tab2[1024];
 	strncpy_s(tab2, s.c_str(), sizeof(tab2));
 	tab2[sizeof(tab2) - 1] = 0;
@@ -187,23 +187,23 @@ std::string Gzip::getTime(std::string fileInBytes) {
 		case '9': k = 9; break;
 		case '0': k = 0; break;
 		}
-		result = result + k * pow(16, p); //формула перевода из 16 СС в 10 СС
+		result = result + k * pow(16, p); //С„РѕСЂРјСѓР»Р° РїРµСЂРµРІРѕРґР° РёР· 16 РЎРЎ РІ 10 РЎРЎ
 		p--;
 	}
 
 	std::cout << "unix time in dec:  " << result << "\n";
 
-	//конвертация значения времени из unix формата в обычный 
+	//РєРѕРЅРІРµСЂС‚Р°С†РёСЏ Р·РЅР°С‡РµРЅРёСЏ РІСЂРµРјРµРЅРё РёР· unix С„РѕСЂРјР°С‚Р° РІ РѕР±С‹С‡РЅС‹Р№ 
 	std::string years,month,days,hours,minutes,seconds;
 	int year, day, hour, minute, second, extra_days, days_minus_leap_days, extra, days_this_year;
 	
-	year=result/31436000+1970; //года с 1970 + 1970 = текущий год
-	extra_days = (year - 1969) / 4; //доп дни в связи с весокосными годами
-	day = result / 86400; //дней после 1970
-	days_minus_leap_days = day - extra_days; //минус весокосные дни
-	days_this_year = days_minus_leap_days % 365; // дней в этом году
+	year=result/31436000+1970; //РіРѕРґР° СЃ 1970 + 1970 = С‚РµРєСѓС‰РёР№ РіРѕРґ
+	extra_days = (year - 1969) / 4; //РґРѕРї РґРЅРё РІ СЃРІСЏР·Рё СЃ РІРµСЃРѕРєРѕСЃРЅС‹РјРё РіРѕРґР°РјРё
+	day = result / 86400; //РґРЅРµР№ РїРѕСЃР»Рµ 1970
+	days_minus_leap_days = day - extra_days; //РјРёРЅСѓСЃ РІРµСЃРѕРєРѕСЃРЅС‹Рµ РґРЅРё
+	days_this_year = days_minus_leap_days % 365; // РґРЅРµР№ РІ СЌС‚РѕРј РіРѕРґСѓ
 
-	//структура описывает месяца
+	//СЃС‚СЂСѓРєС‚СѓСЂР° РѕРїРёСЃС‹РІР°РµС‚ РјРµСЃСЏС†Р°
 	struct Month
 	{
 		std::string name;
@@ -214,18 +214,18 @@ std::string Gzip::getTime(std::string fileInBytes) {
 		{ "Jan", 31 }, { "Feb", 28 }, { "Mar", 31 }, { "Apr", 30 }, { "May", 31 }, { "Jun", 30 },
 		{ "Jul", 31 }, { "Aug", 31 }, { "Sep", 30 }, { "Oct", 31 }, { "Nov", 30 }, { "Dec", 31 } };
 
-	//проверка на високосный год
+	//РїСЂРѕРІРµСЂРєР° РЅР° РІРёСЃРѕРєРѕСЃРЅС‹Р№ РіРѕРґ
 	bool leaf_year=false;
 	if (year % 4==0 && year % 100 != 0|| year % 400==0) {
 			leaf_year = true;
-			months.at(1).days = 29;  //если високосный, то +1 к дням в феврале
-			days_this_year++;		//нужно прибавить, иначе неправильный день
+			months.at(1).days = 29;  //РµСЃР»Рё РІРёСЃРѕРєРѕСЃРЅС‹Р№, С‚Рѕ +1 Рє РґРЅСЏРј РІ С„РµРІСЂР°Р»Рµ
+			days_this_year++;		//РЅСѓР¶РЅРѕ РїСЂРёР±Р°РІРёС‚СЊ, РёРЅР°С‡Рµ РЅРµРїСЂР°РІРёР»СЊРЅС‹Р№ РґРµРЅСЊ
 	}
 
 	for (const auto& it : months){
 		
 		if (days_this_year == 0) {
-			days_this_year = it.days;  //если при вычитании получили 0=>день равен числу дней в месяце
+			days_this_year = it.days;  //РµСЃР»Рё РїСЂРё РІС‹С‡РёС‚Р°РЅРёРё РїРѕР»СѓС‡РёР»Рё 0=>РґРµРЅСЊ СЂР°РІРµРЅ С‡РёСЃР»Сѓ РґРЅРµР№ РІ РјРµСЃСЏС†Рµ
 			month = it.name;
 			break;
 		}
@@ -236,12 +236,12 @@ std::string Gzip::getTime(std::string fileInBytes) {
 		days_this_year -= it.days;
 			
 	}
-	//часы, минуты, секунды
-	second=result - (day * 86400); //секунды в общем
-	hour = second / 3600; //часы
+	//С‡Р°СЃС‹, РјРёРЅСѓС‚С‹, СЃРµРєСѓРЅРґС‹
+	second=result - (day * 86400); //СЃРµРєСѓРЅРґС‹ РІ РѕР±С‰РµРј
+	hour = second / 3600; //С‡Р°СЃС‹
 	extra = (second-(hour * 3600));
-	minute = extra / 60;//минуты
-	second = extra - (minute * 60);//секунды
+	minute = extra / 60;//РјРёРЅСѓС‚С‹
+	second = extra - (minute * 60);//СЃРµРєСѓРЅРґС‹
 
 	std::cout << hour << ":" << minute << ":" << second << " " << days_this_year <<"/"<< month << "/" << year;
 	std::string time = std::to_string(hour) + ":" + std::to_string(minute) + ":" + std::to_string(second) + " " + std::to_string(days_this_year) + "/" + month+"/" + std::to_string(year);

@@ -50,7 +50,7 @@ void DataBase::selectInfo() {
 		sqlite3_free(err);
 	}
 }
-//todo дописать выражение! добавить архитектуру
+//todo РґРѕРїРёСЃР°С‚СЊ РІС‹СЂР°Р¶РµРЅРёРµ! РґРѕР±Р°РІРёС‚СЊ Р°СЂС…РёС‚РµРєС‚СѓСЂСѓ
 std::string DataBase::prepareInsertStatement(File* file) {
 
 	std::string statement = "INSERT INTO Files(name, size, magic, extension, chsum, owner, date_changed, date_created, version, files_inside, network, type, os, compression, format) VALUES(";

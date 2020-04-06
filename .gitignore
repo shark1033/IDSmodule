@@ -338,3 +338,11 @@ ASALocalRun/
 
 # BeatPulse healthcheck temp database
 healthchecksdb
+
+# Databases shouldn't be added to git repo
+*.dblite
+*.sqlite3
+*.db
+
+#This todo file only for me
+Text.txt

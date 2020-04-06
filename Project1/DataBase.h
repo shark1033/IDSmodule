@@ -6,7 +6,7 @@ class DataBase
 {
 public:
 	std::string dbPath;
-	sqlite3* db=0; // хэндл объекта соединение к БД
+	sqlite3* db=0; // С…СЌРЅРґР» РѕР±СЉРµРєС‚Р° СЃРѕРµРґРёРЅРµРЅРёРµ Рє Р‘Р”
 	char* err = 0;
 	const char* expression;
 	const char* data = "Callback function called";
@@ -28,12 +28,12 @@ public:
 	const char* Formats = "CREATE TABLE IF NOT EXISTS Formats(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
 	const char* Formats_insert ="INSERT INTO Formats(name) VALUES('Tar'), ('Gzip'), ('Zip'), ('Elf'), ('Pe'), ('Ico'), ('Gif'), ('U-boot'), ('Squashfs'), ('Script'), ('Undefined');";
 	
-	const char* Files="CREATE TABLE IF NOT EXISTS Files(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,"    // запрос на создание таблицы Files. Выполняется после создания всех отсльаных таблиц
+	const char* Files="CREATE TABLE IF NOT EXISTS Files(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,"    // Р·Р°РїСЂРѕСЃ РЅР° СЃРѕР·РґР°РЅРёРµ С‚Р°Р±Р»РёС†С‹ Files. Р’С‹РїРѕР»РЅСЏРµС‚СЃСЏ РїРѕСЃР»Рµ СЃРѕР·РґР°РЅРёСЏ РІСЃРµС… РѕС‚СЃР»СЊР°РЅС‹С… С‚Р°Р±Р»РёС†
             "name VARCHAR, size VARCHAR, magic VARCHAR, extension VARCHAR, chsum INT, owner VARCHAR, date_changed VARCHAR, date_created VARCHAR,"
             "version VARCHAR, files_inside INT, type INT REFERENCES Type(id), os INT REFERENCES Os(id), "
 			"compression INT  REFERENCES Compression(id), format INT REFERENCES Formats(id), network INT);";
 
-	const char* Delete = "DELETE * FROM Files;";   //удалить все записи из Files
+	const char* Delete = "DELETE * FROM Files;";   //СѓРґР°Р»РёС‚СЊ РІСЃРµ Р·Р°РїРёСЃРё РёР· Files
 
 
 	const char* Select="SELECT Files.name , Files.size, Files.magic, Files.extension, Files.chsum,"

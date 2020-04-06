@@ -47,10 +47,10 @@
             std::cout << "Can not open file \"" << '\"' << std::endl;
             return "Error";
         }
-        //длина файла
+        //РґР»РёРЅР° С„Р°Р№Р»Р°
         fileIn.seekg(0, fileIn.end);
         long double lenght = fileIn.tellg();
-        //курсор в начало файла 
+        //РєСѓСЂСЃРѕСЂ РІ РЅР°С‡Р°Р»Рѕ С„Р°Р№Р»Р° 
         fileIn.seekg(start_pos, fileIn.beg);
         this->lenght = lenght;
 
@@ -66,7 +66,7 @@
         
             /*
             if (count % 16 == 0)
-               std::cout << std::endl << "0x" << std::setw(7) << std::setfill('0') << std::hex << count / 16 << "0 ";  //hex - вывод в 16-ом виде  setw формат выводв, выравнивание
+               std::cout << std::endl << "0x" << std::setw(7) << std::setfill('0') << std::hex << count / 16 << "0 ";  //hex - РІС‹РІРѕРґ РІ 16-РѕРј РІРёРґРµ  setw С„РѕСЂРјР°С‚ РІС‹РІРѕРґРІ, РІС‹СЂР°РІРЅРёРІР°РЅРёРµ
             if (count % 16 == 8)
                 std::cout << ' ';*/
 
@@ -74,9 +74,9 @@
             currentByte = static_cast<int>(sym);
           
             
-            currentByte = (currentByte + 256) % 256;  //избавляемся от - в значениях
-            _itoa_s(currentByte, sstring, 3, 16); //перевод в hex
-            if (sstring[1] == '\0') {   //этот if для доабвления 0 перед цифрой hex
+            currentByte = (currentByte + 256) % 256;  //РёР·Р±Р°РІР»СЏРµРјСЃСЏ РѕС‚ - РІ Р·РЅР°С‡РµРЅРёСЏС…
+            _itoa_s(currentByte, sstring, 3, 16); //РїРµСЂРµРІРѕРґ РІ hex
+            if (sstring[1] == '\0') {   //СЌС‚РѕС‚ if РґР»СЏ РґРѕР°Р±РІР»РµРЅРёСЏ 0 РїРµСЂРµРґ С†РёС„СЂРѕР№ hex
                 sstring[2] = sstring[1];
                 sstring[1] = sstring[0];
                 sstring[0] = '0';
@@ -84,7 +84,7 @@
             //std::cout << sstring << std::endl;
             fileInByte += sstring;                     
 
-           // std::cout << std::setw(2) << std::setfill('0') << std::hex << static_cast<int>(sym & 0xff) << ' ';   //static_cast приведение типов
+           // std::cout << std::setw(2) << std::setfill('0') << std::hex << static_cast<int>(sym & 0xff) << ' ';   //static_cast РїСЂРёРІРµРґРµРЅРёРµ С‚РёРїРѕРІ
             count++;
         }
         std::cout <<"\n"<<fileInByte << std::endl;
@@ -102,7 +102,7 @@
             std::cout << "i = " << i<< "\n";
 
             //--------------------------------------------- SCRIPT -------------------------------------------//
-            if (formatObjects[i]->getFormat() == "script") {   //если скрипт, то отправляем сразу его тип. тут проблема!!!!!!!! читать нужно не в 16 сс а по обычному файл
+            if (formatObjects[i]->getFormat() == "script") {   //РµСЃР»Рё СЃРєСЂРёРїС‚, С‚Рѕ РѕС‚РїСЂР°РІР»СЏРµРј СЃСЂР°Р·Сѓ РµРіРѕ С‚РёРї. С‚СѓС‚ РїСЂРѕР±Р»РµРјР°!!!!!!!! С‡РёС‚Р°С‚СЊ РЅСѓР¶РЅРѕ РЅРµ РІ 16 СЃСЃ Р° РїРѕ РѕР±С‹С‡РЅРѕРјСѓ С„Р°Р№Р»
                 std::string fileInCharacters = readCharachters(0, 10);
                 for (int z = 0; z < 5; z++) {
                     s=fileInCharacters.substr(0,((Script*)formatObjects[i])->numb_arr[z]);
@@ -140,7 +140,7 @@
             //--------------------------------------------- GIF -------------------------------------------//
             else if(formatObjects[i]->getFormat() == "gif") {
                 
-                fileInBytes = readFile(0, 7); //необходимы только превые 6 байт для опредления формата.
+                fileInBytes = readFile(0, 7); //РЅРµРѕР±С…РѕРґРёРјС‹ С‚РѕР»СЊРєРѕ РїСЂРµРІС‹Рµ 6 Р±Р°Р№С‚ РґР»СЏ РѕРїСЂРµРґР»РµРЅРёСЏ С„РѕСЂРјР°С‚Р°.
                 s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
                 
                 if (s == ((Gif*)formatObjects[i])->magic1) {
@@ -160,7 +160,7 @@
                 
             }
             //--------------------------------------------- TAR -------------------------------------------//
-            else if (formatObjects[i]->getFormat() == "tar") { // читаем только байты, которые расположены с оффсетом 257, чтобы определить, это тар или нет
+            else if (formatObjects[i]->getFormat() == "tar") { // С‡РёС‚Р°РµРј С‚РѕР»СЊРєРѕ Р±Р°Р№С‚С‹, РєРѕС‚РѕСЂС‹Рµ СЂР°СЃРїРѕР»РѕР¶РµРЅС‹ СЃ РѕС„С„СЃРµС‚РѕРј 257, С‡С‚РѕР±С‹ РѕРїСЂРµРґРµР»РёС‚СЊ, СЌС‚Рѕ С‚Р°СЂ РёР»Рё РЅРµС‚
                 fileInBytes = readFile(257,8);
                 if (fileInBytes == ((Tar*)formatObjects[i])->magic1) {
                     formatObjects[i]->magic = ((Tar*)formatObjects[i])->getMagic(1);
@@ -188,23 +188,23 @@
         }
         //--------------------------------------------- UNDEFINED -------------------------------------------//
        // if (isDefined == false) {
-          //  getInfo("undefined", 10); //10 это позиция члена массива  formatObjects, который является объектом undefined
+          //  getInfo("undefined", 10); //10 СЌС‚Рѕ РїРѕР·РёС†РёСЏ С‡Р»РµРЅР° РјР°СЃСЃРёРІР°  formatObjects, РєРѕС‚РѕСЂС‹Р№ СЏРІР»СЏРµС‚СЃСЏ РѕР±СЉРµРєС‚РѕРј undefined
        // }
     }
 
      void IDSmodule::getInfo(std::string format, int pointer) { 
         
-        this->file = File(format, formatObjects[pointer]->getMagic()); //создали объект  (инициализировали)
+        this->file = File(format, formatObjects[pointer]->getMagic()); //СЃРѕР·РґР°Р»Рё РѕР±СЉРµРєС‚  (РёРЅРёС†РёР°Р»РёР·РёСЂРѕРІР°Р»Рё)
         this->file.getNameAndExt(filePath);
 
         std::cout << "\n" << "lenght IDS   " << this->lenght<<"\n";
         this->file.size = this->lenght;
-        File* ptr = &this->file;  // создали указатель, чтобы функция parseFile изменяла созданный нами экземпляр класса File, которые является полем класса IDSmodule !!!!ptr не нужен ведь
+        File* ptr = &this->file;  // СЃРѕР·РґР°Р»Рё СѓРєР°Р·Р°С‚РµР»СЊ, С‡С‚РѕР±С‹ С„СѓРЅРєС†РёСЏ parseFile РёР·РјРµРЅСЏР»Р° СЃРѕР·РґР°РЅРЅС‹Р№ РЅР°РјРё СЌРєР·РµРјРїР»СЏСЂ РєР»Р°СЃСЃР° File, РєРѕС‚РѕСЂС‹Рµ СЏРІР»СЏРµС‚СЃСЏ РїРѕР»РµРј РєР»Р°СЃСЃР° IDSmodule !!!!ptr РЅРµ РЅСѓР¶РµРЅ РІРµРґСЊ
 
         if (format == "zip") {
             long double startOfEODR;
             long double start_pos = (lenght - 50);
-            fileInBytes = readFile(start_pos, 50);  //с запасом, посколько неизвестна длина комментария в конце файла, т.к она может быть любой :(
+            fileInBytes = readFile(start_pos, 50);  //СЃ Р·Р°РїР°СЃРѕРј, РїРѕСЃРєРѕР»СЊРєРѕ РЅРµРёР·РІРµСЃС‚РЅР° РґР»РёРЅР° РєРѕРјРјРµРЅС‚Р°СЂРёСЏ РІ РєРѕРЅС†Рµ С„Р°Р№Р»Р°, С‚.Рє РѕРЅР° РјРѕР¶РµС‚ Р±С‹С‚СЊ Р»СЋР±РѕР№ :(
             startOfEODR=((Zip*)formatObjects[pointer])->findEOCDR(fileInBytes);
             std::cout << start_pos<< "  "<<startOfEODR;
             start_pos += startOfEODR/2;
@@ -260,7 +260,7 @@
         }
 
         if (format == "undefined") {
-            //возможно анализ одержимого чтобы определить тип файла... но пока оставм так.
+            //РІРѕР·РјРѕР¶РЅРѕ Р°РЅР°Р»РёР· РѕРґРµСЂР¶РёРјРѕРіРѕ С‡С‚РѕР±С‹ РѕРїСЂРµРґРµР»РёС‚СЊ С‚РёРї С„Р°Р№Р»Р°... РЅРѕ РїРѕРєР° РѕСЃС‚Р°РІРј С‚Р°Рє.
         }
     }
      
@@ -278,7 +278,7 @@
          fileIn.seekg(0, fileIn.end);
          long double lenght = fileIn.tellg();
          this->lenght = lenght;
-         //курсор в начало файла 
+         //РєСѓСЂСЃРѕСЂ РІ РЅР°С‡Р°Р»Рѕ С„Р°Р№Р»Р° 
          fileIn.seekg(start_pos, fileIn.beg);
          int i = 0;
          char c;

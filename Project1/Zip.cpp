@@ -49,7 +49,7 @@ int Zip::getFilesInside(std::string fileInBytes) {
 		case '9': k = 9; break;
 		case '0': k = 0; break;
 		}
-		result = result + k * pow(16, p); //формула перевода из 16 СС в 10 СС
+		result = result + k * pow(16, p); //С„РѕСЂРјСѓР»Р° РїРµСЂРµРІРѕРґР° РёР· 16 РЎРЎ РІ 10 РЎРЎ
 		p--;
 	}
 	return result;
