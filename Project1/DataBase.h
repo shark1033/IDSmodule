@@ -11,34 +11,38 @@ public:
 	const char* expression;
 	const char* data = "Callback function called";
 
-	const char* Compression = "CREATE TABLE IF NOT EXISTS Compression(id   INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
-	const char* Compression_insert = "INSERT INTO Compression(name) VALUES ('Deflate'),('No'),('Undefined'),('Other');";
+	const char* compression = "CREATE TABLE IF NOT EXISTS Compression(id   INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
+	const char* compression_insert = "INSERT INTO Compression(name) VALUES ('deflate'),('no'),('undefined'),('other');"; //add new compression methods
 	
-	const char* Type = "CREATE TABLE IF NOT EXISTS Type(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
-	const char* Type_insert ="INSERT INTO Type(name) VALUES ('archive'), ('image'), ('grafic'), "
+	const char* type = "CREATE TABLE IF NOT EXISTS Type(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
+	const char* type_insert ="INSERT INTO Type(name) VALUES ('archive'), ('image'), ('grafic'), "
+		"('executable'), ('relocatable'), ('shared_object'), ('driver'), ('core_component'), ('net'), ('com');";
+
+	const char* arch = "CREATE TABLE IF NOT EXISTS Arch(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
+	const char* arch_insert = "INSERT INTO Arch(name) VALUES ('archive'), ('image'), ('grafic'), " //change
 		"('executable'), ('relocatable'), ('shared_object'), ('driver'), ('core_component'), ('Net'), ('COM');";
 
-	const char* Os = "CREATE TABLE IF NOT EXISTS Os(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
-	const char* Os_insert ="INSERT INTO Os(name) VALUES ('Fat (MS-DOS, OS/2, NT/Win32)'), ('NTFS (NT)'),"
-		"('Unix'), ('Other'), ('No'), ('Undefined'), ('Macintosh');";
+	const char* os = "CREATE TABLE IF NOT EXISTS Os(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
+	const char* os_insert ="INSERT INTO Os(name) VALUES ('ms-dos, os/2, nt/win32)'), ('windows'),"
+		"('unix'), ('macintosh'), ('no'), ('other'), ('undefined');";
 
-	//const char* Network = "CREATE TABLE IF NOT EXISTS Network(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
-	//const char* Network_insert ="INSERT INTO Network(name) VALUES ('no'), ('yes');";
+	const char* network = "CREATE TABLE IF NOT EXISTS Network(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
+	const char* network_insert ="INSERT INTO Network(name) VALUES ('true'), ('false'), ('undefined');";
 
-	const char* Formats = "CREATE TABLE IF NOT EXISTS Formats(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
-	const char* Formats_insert ="INSERT INTO Formats(name) VALUES('Tar'), ('Gzip'), ('Zip'), ('Elf'), ('Pe'), ('Ico'), ('Gif'), ('U-boot'), ('Squashfs'), ('Script'), ('Undefined');";
+	const char* formats = "CREATE TABLE IF NOT EXISTS Formats(id INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR);";
+	const char* formats_insert ="INSERT INTO Formats(name) VALUES('tar'), ('gzip'), ('zip'), ('elf'), ('pe'), ('ico'), ('gif'), ('uboot'), ('squashfs'), ('script'), ('undefined');"; //uboot!!!
 	
-	const char* Files="CREATE TABLE IF NOT EXISTS Files(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,"    // запрос на создание таблицы Files. Выполняется после создания всех отсльаных таблиц
-            "name VARCHAR, size VARCHAR, magic VARCHAR, extension VARCHAR, chsum INT, owner VARCHAR, date_changed VARCHAR, date_created VARCHAR,"
-            "version VARCHAR, files_inside INT, type INT REFERENCES Type(id), os INT REFERENCES Os(id), "
-			"compression INT  REFERENCES Compression(id), format INT REFERENCES Formats(id), network INT);";
+	const char* files="CREATE TABLE IF NOT EXISTS Files(id INTEGER PRIMARY KEY AUTOINCREMENT UNIQUE NOT NULL,"    // запрос на создание таблицы Files. Выполняется после создания всех отсльаных таблиц
+            "name VARCHAR, size VARCHAR, magic VARCHAR, extension VARCHAR, chsum VARCHAR,  time_stamp VARCHAR,"
+            "files_inside INT, type INT REFERENCES Type(id), os INT REFERENCES Os(id), "
+			"compression INT REFERENCES Compression(id), format INT REFERENCES Formats(id), network INT REFERENCES Network(id)), arch INT REFERENCES Arch(id);"; 
 
 	const char* Delete = "DELETE * FROM Files;";   //удалить все записи из Files
 
 
-	const char* Select="SELECT Files.name , Files.size, Files.magic, Files.extension, Files.chsum,"
-		"Files.owner, Files.date_changed, Files.date_created, Files.version, Files.files_inside, Files.network, "
-		"Os.name as os, Type.name as type, Compression.name as compression, Formats.name as format "
+	const char* Select="SELECT Files.name , Files.size, files.magic, Files.extension, Files.chsum,"
+		"Files.owner, Files.time_stamp, Files.files_inside, Files.network, "
+		"Os.name as os, Type.name as type, Compression.name as compression, Formats.name as format, Arch.name as arch, Network.name as network "
 		"FROM Files "
 		"INNER JOIN Formats on "
 		"Files.format = Formats.id "
@@ -47,7 +51,12 @@ public:
 		"INNER JOIN Type on "
 		"Files.type = Type.id "
 		"Inner JOIN Compression on " 
-		"Files.compression = Compression.id";
+		"Files.compression = Compression.id"
+		"Inner JOIN Arch on " 
+		"Files.arch = Arch.id"
+		"Inner JOIN Network on " 
+		"Files.network = Network.id";
+		
 
 
 	std::string prepareInsertStatement(File* file);
@@ -73,7 +82,6 @@ public:
 	void deleteFromTables();
 
 	DataBase(std::string dbPath="defoltDB.sqlite3");
-	//DataBase();
 	~DataBase();
 
 };

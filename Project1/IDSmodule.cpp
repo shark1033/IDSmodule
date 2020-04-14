@@ -13,6 +13,7 @@
 #include "Squashfs.h"
 #include "Uboot.h"
 #include "Tar.h"
+#include "Pe.h"
 #include "DataBase.h"
 #include <fstream>
 
@@ -27,6 +28,7 @@
         this->formatObjects[5] = new Squashfs();
         this->formatObjects[6] = new Uboot();
         this->formatObjects[7] = new Tar();
+        this->formatObjects[8] = new Pe();
         this->db = DataBase(dbPath);
         this->filePath = filePath;
     };
@@ -36,7 +38,10 @@
 
 
    
-
+    bool IDSmodule::isOtherFormat(std::string format) {
+        if (format == "ico" || format == "tar" || format == "gif" || format == "script") { return false; }
+        return true;
+    }
 
 
     std::string IDSmodule::readFile(int start_pos, int counter) {
@@ -96,13 +101,15 @@
     void IDSmodule::checkFormat() {
         std::string s;
         bool isDefined = false;
-        
+        std::string format;
 
-        for (int i = 0; i < 8; i++) {
+
+        for (int i = 0; i < 9; i++) {
             std::cout << "i = " << i<< "\n";
-
+            format = formatObjects[i]->getFormat();
+            std::cout << format << std::endl;
             //--------------------------------------------- SCRIPT -------------------------------------------//
-            if (formatObjects[i]->getFormat() == "script") {   //если скрипт, то отправляем сразу его тип. тут проблема!!!!!!!! читать нужно не в 16 сс а по обычному файл
+            if (format== "script") {   //если скрипт, то отправляем сразу его тип. тут проблема!!!!!!!! читать нужно не в 16 сс а по обычному файл
                 std::string fileInCharacters = readCharachters(0, 10);
                 for (int z = 0; z < 5; z++) {
                     s=fileInCharacters.substr(0,((Script*)formatObjects[i])->numb_arr[z]);
@@ -116,7 +123,7 @@
                 }
              }
             //--------------------------------------------- ICO -------------------------------------------//
-            else if (formatObjects[i]->getFormat() == "ico") {
+            else if (format == "ico") {
                 std::cout << " entered ico \n";
                 fileInBytes = readFile(0, 10);
                 s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
@@ -138,7 +145,7 @@
                 }
             }
             //--------------------------------------------- GIF -------------------------------------------//
-            else if(formatObjects[i]->getFormat() == "gif") {
+            else if(format == "gif") {
                 
                 fileInBytes = readFile(0, 7); //необходимы только превые 6 байт для опредления формата.
                 s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
@@ -160,7 +167,7 @@
                 
             }
             //--------------------------------------------- TAR -------------------------------------------//
-            else if (formatObjects[i]->getFormat() == "tar") { // читаем только байты, которые расположены с оффсетом 257, чтобы определить, это тар или нет
+            else if (format == "tar") { // читаем только байты, которые расположены с оффсетом 257, чтобы определить, это тар или нет
                 fileInBytes = readFile(257,8);
                 if (fileInBytes == ((Tar*)formatObjects[i])->magic1) {
                     formatObjects[i]->magic = ((Tar*)formatObjects[i])->getMagic(1);
@@ -176,14 +183,17 @@
                     }
             }
             //--------------------------------------------- OTHER -------------------------------------------//
-            fileInBytes = readFile(0, 10);
-            s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
+            else if (isOtherFormat(format)) {
+                fileInBytes = readFile(0, 10);  //поменять кусок кода
+                s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
 
-            if (s == formatObjects[i]->getMagic()) {
-                getInfo(formatObjects[i]->getFormat(), i);  
-                isDefined = true;
-                break;
+                 if (s == formatObjects[i]->getMagic()) {
+                     getInfo(formatObjects[i]->getFormat(), i);  
+                     isDefined = true;
+                     break;
+                 }
             }
+            
             
         }
         //--------------------------------------------- UNDEFINED -------------------------------------------//
@@ -196,6 +206,8 @@
         
         this->file = File(format, formatObjects[pointer]->getMagic()); //создали объект  (инициализировали)
         this->file.getNameAndExt(filePath);
+       // this->file.fileInBytes = &this->fileInBytes;
+        //std::cout << *this->file.fileInBytes;//!!!!!!!!
 
         std::cout << "\n" << "lenght IDS   " << this->lenght<<"\n";
         this->file.size = this->lenght;
@@ -229,6 +241,7 @@
             std::cout << "tar parse";
             formatObjects[pointer]->parseFile(fileInBytes, ptr);
         }
+
         if (format == "ico") {
             formatObjects[pointer]->parseFile(this->fileInBytes, ptr);
 
@@ -251,9 +264,28 @@
         if (format == "elf") {
 
         }
+
         if (format == "pe") {
+            fileInBytes = readFile(60, 4); //выделяем значени смещения для заголовка ПЕ
+            int offset=((Pe*)formatObjects[pointer])->getPeHeader(fileInBytes);
+            //pe_header
+            fileInBytes = readFile(offset, 26);//узнаём время, разрядность, кол. секций
+            offset += 24;
+            formatObjects[pointer]->parseFile(fileInBytes, ptr);
+            ((Pe*)formatObjects[pointer])->getArchBit(fileInBytes);
+            //pe_opt_header
+            fileInBytes = readFile(offset, ((Pe*)formatObjects[pointer])->size_of_optional_header);
+            
+            ((Pe*)formatObjects[pointer])->getImageBase(fileInBytes); //in dec
+            ((Pe*)formatObjects[pointer])->getSectAlig(fileInBytes);  //in dec
+            ((Pe*)formatObjects[pointer])->getIDD(fileInBytes);
+
+            file.type=((Pe*)formatObjects[pointer])->getType(fileInBytes);
+            file.chsum = ((Pe*)formatObjects[pointer])->getChsum(fileInBytes);
+
 
         }
+
         if (format == "script") {
             formatObjects[pointer]->parseFile(this->fileInBytes, ptr);
             

@@ -15,6 +15,8 @@ public:
 	std::string compression;	// метод/алгоритм сжатия
 	std::string extension;		// расширение файла
 	std::string arch;			// архитектура целевой системы
+	//std::string fileInBytes;
+
 	int network;				// наличие сетевыз возможнойстей (0 - есть, 1 - нет)
 	int filesInside;			// количество файлов внутри (акутально для архивов)
 	unsigned long long size;	// размер файла
@@ -28,7 +30,9 @@ public:
 	int formatToInt();													// {
 	int compressionToInt();												// методы для измнения значений 
 	int typeToInt();													// для более удобной записи в БД
-	int osToInt();														// }
+	int osToInt();	
+	int networkToInt();
+	int archToInt();													// }
 
 	void getNameAndExt(std::string filePath);							// метод, определяющий имя и расширение файла. Записывает значения в поля file.name, file.extension
 	void getInfo();														// метод для вывода значений полей экземпляра file
@@ -36,6 +40,7 @@ public:
 	std::string convertTime(std::string unixTime);						// метод конвертирует время формате ubixTime в обычный формат: часы:минуты:секунды число:месяц:год
 	std::string convertBigEndian(std::string bigEndian, int bytes);		// метод изменяет порядок байт little Endian в big Endian. работает либо для 2 байт либо для 4
 	std::string convertHexToDec(std::string hexInString);				// метод переыодит из 16 СС в 10 СС
+	std::string checkTimeFormat(int time_unit);					
 
 	virtual void parseFile(std::string fileInBytes, File* file);		// метод отвечает за парсинг файла. Каждый производный класс переопределяет данный метод
 	virtual std::string getFormat();									// метод возвращает формат файла

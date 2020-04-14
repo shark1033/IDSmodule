@@ -20,6 +20,20 @@ std::string File::convertBigEndian(std::string bigEndian, int bytes) {
 		sub4 = bigEndian.substr(6, 2);
 		return sub4 + sub3 + sub2 + sub1;
 	}
+
+	else if (bytes == 8) {
+		std::string sub1, sub2, sub3, sub4, sub5, sub6, sub7, sub8;
+		sub1 = bigEndian.substr(0, 2);
+		sub2 = bigEndian.substr(2, 2);
+		sub3 = bigEndian.substr(4, 2);
+		sub4 = bigEndian.substr(6, 2);
+		sub5 = bigEndian.substr(8, 2);
+		sub6 = bigEndian.substr(10, 2);
+		sub7 = bigEndian.substr(12, 2);
+		sub8 = bigEndian.substr(14, 2);
+		return sub8 + sub7 + sub6 + sub5 +sub4 + sub3 + sub2 + sub1;
+	}
+
 	else {
 		std::cout << "WRONG ARGUMENT";
 		return 0;
@@ -31,8 +45,6 @@ std::string File::convertTime(std::string unixTime) {
 	char tab2[1024];
 	strncpy_s(tab2, unixTime.c_str(), sizeof(tab2));
 	tab2[sizeof(tab2) - 1] = 0;
-
-	std::cout << "unix time:  " << tab2 << "\n";
 
 	int i, result, k, p;
 	result = 0;
@@ -61,9 +73,6 @@ std::string File::convertTime(std::string unixTime) {
 		result = result + k * pow(16, p); //формула перевода из 16 СС в 10 СС
 		p--;
 	}
-
-	std::cout << "unix time in dec:  " << result << "\n";
-
 	//конвертация значения времени из unix формата в обычный 
 	std::string years, month, days, hours, minutes, seconds;
 	int year, day, hour, minute, second, extra_days, days_minus_leap_days, extra, days_this_year;
@@ -113,28 +122,37 @@ std::string File::convertTime(std::string unixTime) {
 	extra = (second - (hour * 3600));
 	minute = extra / 60;//минуты
 	second = extra - (minute * 60);//секунды
+	
+	std::string time = checkTimeFormat(hour) + ":" + checkTimeFormat(minute) + ":" + checkTimeFormat(second) + " " + checkTimeFormat(days_this_year) + "/" + month + "/" + std::to_string(year);
+	return time;
+}
 
-	std::cout << hour << ":" << minute << ":" << second << " " << days_this_year << "/" << month << "/" << year;
-	std::string time = std::to_string(hour) + ":" + std::to_string(minute) + ":" + std::to_string(second) + " " + std::to_string(days_this_year) + "/" + month + "/" + std::to_string(year);
+std::string File::checkTimeFormat(int time_unit) {
+	std::string time = std::to_string(time_unit);
+	if (time.length()<2) {
+		time.push_back(time.at(0));
+		time.at(0) = '0';
+	}
 	return time;
 }
 
 File::File(){}
 
 File::File(std::string format, std::string magic) :format(format), magic(magic),
-chsum("undefined"), time_stamp("udefined"), type("undefined"), compression("undefined"),  
+chsum("undefined"), time_stamp("undefined"), type("undefined"), compression("undefined"),  
 magic_offset(0), magic_offset_size(0),os("undefined"),filesInside(0), size(0), network(1), arch("undefined")
 {
 
 }
+
 void File::parseFile(std::string fileInBytes, File* file){}
 
 void File::getInfo() {
-	std::cout << "\n Name: " << this->name << " uncompressed size: " << this->size <<" compressed size: " << this->size << " chsum: " << this->chsum << " owner: " << this->owner << " os: " << this->os
-		<< "\n date_changed: " << this->time_stamp << " date_created: " << this->time_stamp << " format: " << this->format
-		<< "\n type: " << this->type << " compression: " << this->compression << " version: " << this->version
-		<< "\n extension : " << this->extension << " filesInside: " << this->filesInside 
-		<< " network: " << this->network;
+	std::cout << "\n Name: " << this->name  << " compressed size: " << this->size << " chsum: " << this->chsum << " os: " << this->os
+		<< "\n time_stamp: " << this->time_stamp << " format: " << this->format
+		<< "\n type: " << this->type << " compression: " << this->compression
+		<< "\n extension : " << this->extension << " filesInside: " << this->filesInside
+		<< " network: " << this->network << " arch: " << this->arch;
 }
 
 
@@ -177,7 +195,7 @@ std::string File::convertHexToDec(std::string hexInString) {
 	strncpy_s(tab2, hexInString.c_str(), sizeof(tab2));
 	tab2[sizeof(tab2) - 1] = 0;
 	int i, k, p;
-	long double result = 0;
+	long long result = 0;
 	p = strlen(tab2) - 1;
 	for (i = 0; tab2[i] != '\0'; i++)
 	{
@@ -320,6 +338,14 @@ int File::osToInt() {
 	else {
 		return 6;
 	}
+}
+
+int File::networkToInt() {  //доделать
+	return 0; 
+}
+
+int File::archToInt() { //доделать
+	return 0;
 }
 
 std::string File::getFormat() {
