@@ -40,12 +40,14 @@ public:
 	std::string convertTime(std::string unixTime);						// метод конвертирует время формате ubixTime в обычный формат: часы:минуты:секунды число:месяц:год
 	std::string convertBigEndian(std::string bigEndian, int bytes);		// метод изменяет порядок байт little Endian в big Endian. работает либо для 2 байт либо для 4
 	std::string convertHexToDec(std::string hexInString);				// метод переыодит из 16 СС в 10 СС
-	std::string checkTimeFormat(int time_unit);					
+	std::string checkTimeFormat(int time_unit);	
+	std::string convertBytesToAscii(std::string sub);
 
 	virtual void parseFile(std::string fileInBytes, File* file);		// метод отвечает за парсинг файла. Каждый производный класс переопределяет данный метод
 	virtual std::string getFormat();									// метод возвращает формат файла
 	virtual std::string getMagic();										// метод возыращает сигнатуру файла
 	virtual int getMagicOffset();										// метод возвращает смещение до сигнатуры
 	virtual int getMagicOffsetSize();									// метод возвращает длину сигнатуры
+
 
 };

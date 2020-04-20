@@ -127,6 +127,19 @@ std::string File::convertTime(std::string unixTime) {
 	return time;
 }
 
+
+std::string File::convertBytesToAscii(std::string sub) {
+	std::string ascii_string;
+
+	for (int i = 0; i < sub.length()-1; i += 2) {
+		
+		ascii_string.push_back((char)std::stoi(convertHexToDec(sub.substr(i, 2))));
+
+	}
+	std::cout << ascii_string << std::endl;
+	return ascii_string;
+}
+
 std::string File::checkTimeFormat(int time_unit) {
 	std::string time = std::to_string(time_unit);
 	if (time.length()<2) {
@@ -148,7 +161,7 @@ magic_offset(0), magic_offset_size(0),os("undefined"),filesInside(0), size(0), n
 void File::parseFile(std::string fileInBytes, File* file){}
 
 void File::getInfo() {
-	std::cout << "\n Name: " << this->name  << " compressed size: " << this->size << " chsum: " << this->chsum << " os: " << this->os
+	std::cout << "\n Name: " << this->name  << " magic: " << this->magic  <<" size: " << this->size << " chsum: " << this->chsum << " os: " << this->os
 		<< "\n time_stamp: " << this->time_stamp << " format: " << this->format
 		<< "\n type: " << this->type << " compression: " << this->compression
 		<< "\n extension : " << this->extension << " filesInside: " << this->filesInside
@@ -349,17 +362,18 @@ int File::archToInt() { //доделать
 }
 
 std::string File::getFormat() {
-	return this->format;
+	return format;
 }
 
 std::string File::getMagic() {
-	return this->magic;
+	return magic;
 }
 
 int File::getMagicOffset() {
-	return this->magic_offset;
+	return magic_offset;
 }
 
 int File::getMagicOffsetSize() {
-	return this->magic_offset_size;
+	return magic_offset_size;
 }
+

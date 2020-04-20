@@ -7,7 +7,7 @@
 1) Gif																								 ---------- OK       
 2) IC0																								 ---------- OK
 3) Tar																								 ---------- OK
-4) ELF
+4) ELF																								 ---------- 90%
 5) PE																								 ---------- 60%
 6) Scripts																							 ---------- OK
 7) ZIP																								 ---------- OK
@@ -32,7 +32,7 @@
 26) добавить поле архитектура в бд 
 27) убрать поле owner, compressed size,version.														 ---------- OK
 28) вынести общие методы(getMagic, get,agicOffsetSize и другие в File)
-29) убрать getMagic(int var)?
+29) убрать getMagic(int var)?																		 ---------- OK
 30) tar - filesInside - too expensive, so we omit it												 ---------- OK
 31) размер файла
 32) изменить запросы в бд в связи с удалением параметров + удалить в бд поля

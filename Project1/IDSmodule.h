@@ -10,7 +10,7 @@ class IDSmodule
 {
 public:
     File file;
-    File* formatObjects[9];
+    File* formatObjects[10];
     DataBase db;
 
     std::string fileInBytes;

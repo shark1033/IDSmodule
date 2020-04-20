@@ -150,6 +150,7 @@
   <ItemGroup>
     <ClCompile Include="DataBase.cpp" />
     <ClCompile Include="Diplom.cpp" />
+    <ClCompile Include="Elf.cpp" />
     <ClCompile Include="File.cpp" />
     <ClCompile Include="Gif.cpp" />
     <ClCompile Include="Gzip.cpp" />
@@ -166,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="DataBase.h" />
+    <ClInclude Include="Elf.h" />
     <ClInclude Include="File.h" />
     <ClInclude Include="Gif.h" />
     <ClInclude Include="Gzip.h" />

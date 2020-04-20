@@ -16,7 +16,7 @@ int Ico::getMagicOffsetSize() {
 }
 
 Ico::Ico() {
-	this->magic_offset_size = this->magic1.length();
+	this->magic_offset_size = magic1.length();
 }
 Ico::~Ico() {}
 

@@ -5,21 +5,7 @@
 
 
 
-   
-
-        /*
-        IDSmodule ids = IDSmodule("diplom.dblite", "s:\\testfiles\\example.gz");
-        ids.db.connect();
-        ids.db.selectInfo();
-        ids.db.disconnect();
-*/
-/*
-        DataBase db = DataBase("diplom.dblite");
-        db.connect();
-        //db.createDatabases();
-        db.selectInfo();
-        db.disconnect();
-        */
+  
         
 int main(){
     setlocale(LC_ALL, "rus");
@@ -32,14 +18,14 @@ int main(){
        // rf.db.createDatabases();
         //rf.db.insertIntoTables(rf.db.prepareInsertStatement(&rf.file).c_str());
    */
-       IDSmodule ids = IDSmodule("s:\\testfiles\\example1.exe");
-       ids.checkFormat();
-       ids.file.getInfo();
-       // ids.readCharachters(10);
+    IDSmodule ids = IDSmodule("s:\\testfiles\\example.elf");
+    ids.checkFormat();
+    ids.file.getInfo();
+  
 
-        return 0;
 
-     }
+    return 0;
+}
       
 
 

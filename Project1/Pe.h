@@ -10,7 +10,7 @@ public:
 	std::string magic2 = "504500"; //this field is required for second check of the file's format
 	std::string format = "pe";
 	std::string arch_bit;
-	std::string directories;
+
 
 
 	struct IMAGE_DATA_DIRECTORY {
@@ -39,7 +39,7 @@ public:
 	void getSectAlig(std::string fileInBytes);
 	void getImageBase(std::string fileInBytes);
 	void getSizeOfOh(std::string fileInBytes);
-	;
+
 
 	std::string getMagic();
 	std::string getFormat();

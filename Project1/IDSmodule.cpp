@@ -14,6 +14,7 @@
 #include "Uboot.h"
 #include "Tar.h"
 #include "Pe.h"
+#include "Elf.h"
 #include "DataBase.h"
 #include <fstream>
 
@@ -29,6 +30,7 @@
         this->formatObjects[6] = new Uboot();
         this->formatObjects[7] = new Tar();
         this->formatObjects[8] = new Pe();
+        this->formatObjects[9] = new Elf();
         this->db = DataBase(dbPath);
         this->filePath = filePath;
     };
@@ -104,7 +106,7 @@
         std::string format;
 
 
-        for (int i = 0; i < 9; i++) {
+        for (int i = 0; i < 10; i++) {
             std::cout << "i = " << i<< "\n";
             format = formatObjects[i]->getFormat();
             std::cout << format << std::endl;
@@ -124,11 +126,9 @@
              }
             //--------------------------------------------- ICO -------------------------------------------//
             else if (format == "ico") {
-                std::cout << " entered ico \n";
                 fileInBytes = readFile(0, 10);
                 s = fileInBytes.substr(formatObjects[i]->getMagicOffset(), formatObjects[i]->getMagicOffsetSize());
                 if (s == ((Ico*)formatObjects[i])->magic1){
-                    std::cout << "it's ico1 \n";
                     ((Ico*)formatObjects[i])->magic = ((Ico*)formatObjects[i])->magic1;
                     this->fileInBytes = fileInBytes;
                     getInfo(formatObjects[i]->getFormat(), i);
@@ -136,7 +136,6 @@
                     break;
                 }
                 else if( s == ((Ico*)formatObjects[i])->magic2) {
-                    std::cout << "it's ico2 \n";
                     ((Ico*)formatObjects[i])->magic = ((Ico*)formatObjects[i])->magic2;
                     this->fileInBytes = fileInBytes;
                     getInfo(formatObjects[i]->getFormat(), i);
@@ -262,8 +261,20 @@
         }
 
         if (format == "elf") {
+            fileInBytes = readFile(0, 64); //читаем заголовок файла.
+            formatObjects[pointer]->parseFile(fileInBytes, ptr);
+            fileInBytes = readFile(((Elf*)formatObjects[pointer])->sh_str_tab_offset, ((Elf*)formatObjects[pointer])->sh_ent_size);
+            ((Elf*)formatObjects[pointer])->getShStrTabOffsetAndSize(fileInBytes);
+            fileInBytes = readFile(((Elf*)formatObjects[pointer])->sh_str_tab_section_offset, ((Elf*)formatObjects[pointer])->sh_str_tab_section_size);
+            ((Elf*)formatObjects[pointer])->getStrTabIndex(fileInBytes);
+            fileInBytes = readFile(((Elf*)formatObjects[pointer])->str_tab_structure_offset, ((Elf*)formatObjects[pointer])->sh_ent_size);
+            ((Elf*)formatObjects[pointer])->getStrTabSectionOffsetAndSize(fileInBytes);
+            fileInBytes = readFile(((Elf*)formatObjects[pointer])->str_tab_section_offset, ((Elf*)formatObjects[pointer])->str_tab_section_size);
+            ((Elf*)formatObjects[pointer])->defineNetworkMode(fileInBytes);
 
-        }
+
+        } 
+        
 
         if (format == "pe") {
             fileInBytes = readFile(60, 4); //выделяем значени смещения для заголовка ПЕ
