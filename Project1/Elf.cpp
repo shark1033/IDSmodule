@@ -101,58 +101,36 @@ std::string Elf::getArch(std::string fileInBytes) { //add values
 	else if (arch == 61) { return "advanced_logic_corp"; }
 	else if (arch == 62) { return "amds_x86-64_arch"; }
 	else if (arch == 63) { return "sony_dsp_processor"; }
-
-	else if (arch == 64) { return "advanced_logic_corp"; }
-	else if (arch == 65) { return "amds_x86-64_arch"; }
-	else if (arch == 66) { return "sony_dsp_processor"; }
-	else if (arch == 67) { return "advanced_logic_corp"; }
-	else if (arch == 68) { return "amds_x86-64_arch"; }
-	else if (arch == 69) { return "sony_dsp_processor"; }
-	else if (arch == 70) { return "advanced_logic_corp"; }
-	else if (arch == 71) { return "amds_x86-64_arch"; }
-	else if (arch == 72) { return "sony_dsp_processor"; }
-
-
-
-
-#define	EM_FX66		66		/* Siemens FX66 microcontroller */
-#define	EM_ST9PLUS	67		/* STMicroelectronics ST9+8/16 bit */
-					/*	microcontroller */
-#define	EM_ST7		68		/* STMicroelectronics ST7 8-bit */
-					/*	microcontroller */
-#define	EM_68HC16	69		/* Motorola MC68HC16 Microcontroller */
-#define	EM_68HC11	70		/* Motorola MC68HC11 Microcontroller */
-#define	EM_68HC08	71		/* Motorola MC68HC08 Microcontroller */
-#define	EM_68HC05	72		/* Motorola MC68HC05 Microcontroller */
-#define	EM_SVX		73		/* Silicon Graphics SVx */
-#define	EM_ST19		74		/* STMicroelectronics ST19 8-bit */
-					/*	microcontroller */
-#define	EM_VAX		75		/* Digital VAX */
-#define	EM_CRIS		76		/* Axis Communications 32-bit */
-					/*	embedded processor */
-#define	EM_JAVELIN	77		/* Infineon Technologies 32-bit */
-					/*	embedded processor */
-#define	EM_FIREPATH	78		/* Element 14 64-bit DSP Processor */
-#define	EM_ZSP		79		/* LSI Logic 16-bit DSP Processor */
-#define	EM_MMIX		80		/* Donald Knuth's educational */
-					/*	64-bit processor */
-#define	EM_HUANY	81		/* Harvard University */
-					/*	machine-independent */
-					/*	object files */
-#define	EM_PRISM	82		/* SiTera Prism */
-#define	EM_AVR		83		/* Atmel AVR 8-bit microcontroller */
-#define	EM_FR30		84		/* Fujitsu FR30 */
-#define	EM_D10V		85		/* Mitsubishi D10V */
-#define	EM_D30V		86		/* Mitsubishi D30V */
-#define	EM_V850		87		/* NEC v850 */
-#define	EM_M32R		88		/* Mitsubishi M32R */
-#define	EM_MN10300	89		/* Matsushita MN10300 */
-#define	EM_MN10200	90		/* Matsushita MN10200 */
-#define	EM_PJ		91		/* picoJava */
-#define	EM_OPENRISC	92		/* OpenRISC 32-bit embedded processor */
-#define	EM_ARC_A5	93		/* ARC Cores Tangent-A5 */
-#define	EM_XTENSA	94		/* Tensilica Xtensa architecture */
-#define	EM_NUM		95
+	else if (arch == 66) { return "siemens_fx66_microcontroller"; }
+	else if (arch == 67) { return "stmicroelectronics_st9_8/16"; }
+	else if (arch == 68) { return "stmicroelectronics_st7_8"; }
+	else if (arch == 69) { return "motorola_mc68hc16_microcontroller"; }
+	else if (arch == 70) { return "motorola_mc68hc11_microcontroller"; }
+	else if (arch == 71) { return "motorola_mc68hc08_microcontroller"; }
+	else if (arch == 72) { return "motorola_mc68hc05_microcontroller"; }
+	else if (arch == 73) { return "silicon_graphics_cvx"; }
+	else if (arch == 74) { return "stmicroelectronics_st19_8"; }
+	else if (arch == 75) { return "digital_vax"; }
+	else if (arch == 76) { return "axis_communications_32"; }
+	else if (arch == 77) { return "infineon_technologies_32"; }
+	else if (arch == 78) { return "element_14_64_dsp_processor"; }
+	else if (arch == 79) { return "lsi_logic_16_dsp_processor"; }
+	else if (arch == 80) { return "donald_knuth'_ educational_64"; }
+	else if (arch == 81) { return "harvard_university_machine_independent_object_files"; }
+	else if (arch == 82) { return "sitera_prism"; }
+	else if (arch == 83) { return "atmel_avr_8_microcontroller"; }
+	else if (arch == 84) { return "fujitsu_fr30"; }
+	else if (arch == 85) { return "mitsubishi_d10v"; }
+	else if (arch == 86) { return "mitsubishi_d30v"; }
+	else if (arch == 87) { return "nec_v850"; }
+	else if (arch == 88) { return "mitsubishi_m32r"; }
+	else if (arch == 89) { return "matsushita_mn10300"; }
+	else if (arch == 90) { return "matsushita_mn10200"; }
+	else if (arch == 91) { return "pico_java"; }
+	else if (arch == 92) { return "open_risk_32_embedded_processor"; }
+	else if (arch == 93) { return "arc_core_tangent_a5"; }
+	else if (arch == 94) { return "tensilica_xtensa_architecture"; }
+	else if (arch == 95) { return "matsushita_mn10200"; }
 	
 	return "undefined";
 }
